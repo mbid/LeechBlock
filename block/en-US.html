@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Site Blocked</title>
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="../assets/leechblock16.ico">
+    <link rel="stylesheet" href="block.css" type="text/css">
+  </head>
+
+  <body>
+    <!-- logo -->
+    <div>
+      <img src="../assets/leechblock_logo.png" alt="LeechBlock logo" title="LeechBlock" />
+    </div>
+
+    <!-- warning message -->
+    <div>
+      <h1>The page you're attempting to access has been blocked by <a href="http://www.proginosko.com/leechblock/">LeechBlock</a></h2>
+    </div>
+
+    <!-- blocked site info -->
+    <div>
+      <a id="blocked-url-link"></a> <span id="block-set-info">(<span id="block-set-name"></span>)</span>
+      <p id="never-unblocked">
+        The page will <strong>never</strong> be unblocked.
+      </p>
+      <p id="sometime-unblocked">
+        The page will be unblocked at <strong id="unblock-time"></strong>.
+      </p>
+    </div>
+
+    <script src="block.js"></script>
+  </body>
+</html>

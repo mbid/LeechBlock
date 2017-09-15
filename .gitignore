@@ -1,3 +1,2 @@
-*.bat
-*.txt
-*.xpi
+dist
+node_modules

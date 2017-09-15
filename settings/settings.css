@@ -1,0 +1,77 @@
+body {
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#block-set-list {
+  list-style-type: none;
+  margin-top: 0;
+  padding: 0;
+  padding-left: 2em;
+
+}
+
+.block-set {
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+}
+
+.block-set:last-child {
+  border-bottom-style: none;
+  border-bottom-width: 0;
+}
+
+.form-group {
+  display: block;
+  margin-left: 0;
+  margin-right: 0;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  border-width: 0;
+  padding: 0;
+}
+
+.form-group ul {
+  display: inline-block; 
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+.form-group li {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+.form-group li:first-child {
+  margin-top: 0;
+}
+
+.form-group li:first-child {
+    margin-top:0;
+}
+
+.form-group > label:first-child {
+  float: left;
+  width: 200px;
+}
+fieldset legend {
+  float:left;
+  width: 200px;
+  margin: 0;
+  padding: 0;
+}
+
+[aria-invalid="true"] {
+  box-shadow: red 0px 0px 1.5px 1px
+}
+
+[aria-invalid="false"] {
+  box-shadow: green 0px 0px 1.5px 1px
+}
+
+input[type='number'] {
+  width: 100px;
+}
+input[type='time'] {
+  width: 100px;
+}

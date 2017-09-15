@@ -1,0 +1,30 @@
+{
+  "manifest_version": 2,
+  "name": "LeechBlock",
+  "version": "2.0.0",
+
+  "description": "Blocks those time-wasting sites that can suck the life out of your working day.",
+
+  "icons": {
+    "32": "assets/leechblock32.png",
+    "64": "assets/leechblock64.png"
+  },
+
+  "background": {
+    "scripts": [
+      "background.js"
+    ]
+  },
+
+  "options_ui": {
+    "page": "settings/en_US.html",
+    "open_in_tab": true
+  },
+
+  "web_accessible_resources": [
+    "block/*",
+    "assets/*"
+  ],
+
+  "permissions": ["storage", "tabs"]
+}

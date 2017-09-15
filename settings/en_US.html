@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link href="settings.css" rel="stylesheet">
+  </head>
+  <body>
+    <h2>Block Sets</h2>
+
+    <ul id="block-set-list">
+      <template id="block-set-template">
+        <li class="block-set">
+          <div class="form-group">
+            <label for="block-set-name">
+              Name
+            </label>
+            <input type="text" id="block-set-name" >
+          </div>
+
+          <h3>What to Block</h3>
+
+          <div class="form-group">
+            <label for="new-blocked-page" id="blocked-pages-label">
+              Blocked Pages
+            </label>
+            <ul>
+              <li>
+                <input id="new-blocked-page" type="text" >
+              </li>
+              <template id="edit-blocked-page-template" >
+                <li>
+                  <input id="edit-blocked-page" type="text" >
+                </li>
+              </template>
+            </ul>
+          </div>
+
+          <h3>When to Block</h3>
+
+          <div class="form-group">
+            <label for="start-time">
+              Start Time
+            </label>
+            <input id="start-time" type="time" >
+          </div>
+
+          <div class="form-group">
+            <label for="end-time">
+              End Time
+            </label>
+            <input id="end-time" type="time" >
+          </div>
+
+          <fieldset class="form-group">
+            <legend>
+              Days
+            </legend>
+            <label>
+              Mo
+              <input type="checkbox" id="day1" >
+            </label>
+            <label>
+              Tu
+              <input type="checkbox" id="day2">
+            </label>
+            <label>
+              We
+              <input type="checkbox" id="day3" >
+            </label>
+            <label>
+              Th
+              <input type="checkbox" id="day4" >
+            </label>
+            <label>
+              Fr
+              <input type="checkbox" id="day5" >
+            </label>
+            <label>
+              Sa 
+              <input type="checkbox" id="day6" >
+            </label>
+            <label>
+              Su
+              <input type="checkbox" id="day0" >
+            </label>
+          </fieldset>
+
+          <fieldset class="form-group">
+            <legend>
+              Allowed Time Spent
+            </legend>
+            <input type="number" min=0 step=1 id="quota-allowed-number" >
+            <select id="quota-allowed-unit">
+              <option value="minutes">minutes</option>
+              <option value="hours">hours</option>
+            </select>
+            
+            <label for="interval">
+              in every
+            </label>
+            <input type="number" min=1 step=1 id="quota-interval-number" >
+            <select id="quota-interval-unit">
+              <option value="minutes">minutes</option>
+              <option value="hours">hours</option>
+              <option value="days">days</option>
+              <option value="weeks">weeks</option>
+              <option value="months">months</option>
+            </select>
+          </fieldset>
+        </li>
+      </template>
+    </ul>
+
+    <script src="../node_modules/moment/min/moment.min.js"></script>
+    <script src="../lib/state.js"></script>
+    <script src="../lib/match-pattern.js"></script>
+    <script src="settings.js"></script>
+  </body>
+</html>

@@ -1,0 +1,13 @@
+{
+  "dependencies": [
+    "moment"
+  ],
+  "devDependencies": [
+    "mocha",
+    "browserify",
+    "jsdoc"
+  ],
+  "scripts": {
+    "test": "mocha"
+  }
+}

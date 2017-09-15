@@ -1,0 +1,17 @@
+#!/bin/sh
+
+PATH="$PATH:$(npm bin)"
+
+mkdir -p dist/firefox
+
+cp -r assets dist/firefox
+cp -r manifest.json dist/firefox/manifest.json
+
+# TODO: disable -d in release
+browserify -d background.js > dist/firefox/background.js
+
+cp -r settings dist/firefox
+# TODO: disable -d in release
+browserify -d settings/settings.js > dist/firefox/settings/settings.js
+
+cp -r block dist/firefox
