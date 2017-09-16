@@ -1,4 +1,5 @@
 'use strict'
+/* globals browser */
 
 const {
   formatISODateTime,
@@ -14,71 +15,49 @@ const {
   nextNonBlockingMoment
 } = require('./lib/logic')
 
-function getActiveUrl() {
+function getActiveUrl () {
   return browser.windows.getLastFocused({populate: true, windowTypes: ['normal']}).then(activeWindow => {
     if (activeWindow.focused === true) {
-      const activeTab = activeWindow.tabs.find(tab => tab.active);
-      if (activeTab != undefined) {
-        return activeTab.url;
+      const activeTab = activeWindow.tabs.find(tab => tab.active)
+      if (activeTab != null) {
+        return activeTab.url
       }
     }
 
-    return undefined;
+    return undefined
   })
 }
 
-function getAllTabs() {
+function getAllTabs () {
   return browser.tabs.query({windowType: 'normal'})
 }
 
-function getAllUrls() {
-  return getAllTabs().then(tabs => tabs.map(tab => tab.url).filter(url => url != undefined))
-}
-function encodeBlockInfo(now, blockSet, blockedUrl) {
-  let hash = "#";
-
-  if (blockedUrl != undefined) {
-    hash += encodeURIComponent(blockedUrl)
-  }
-
-  hash += "#";
-
-  const unblockingMoment = nextNonBlockingMoment(now, blockSet);
-  if (unblockingMoment != undefined) {
-    hash += encodeURIComponent(unblockingMoment.toISOString());
-  }
-
-  hash += "#"
-
-  if (blockSet.name != undefined) {
-    hash += encodeURIComponent(blockSet.name)
-  }
-
-  return hash;
+function getAllUrls () {
+  return getAllTabs().then(tabs => tabs.map(tab => tab.url).filter(url => url != null))
 }
 
-function blockTab(now, settings, data, tab) {
-  const blockPageUrl = browser.extension.getURL("block/en-US.html")
-  let hash = "#"
-  if (tab.url != undefined) {
+function blockTab (now, settings, data, tab) {
+  const blockPageUrl = browser.extension.getURL('block/en-US.html')
+  let hash = '#'
+  if (tab.url != null) {
     hash += encodeURIComponent(tab.url)
   }
 
-  hash += "#"
+  hash += '#'
   const unblockingMoment = nextNonBlockingMoment(now, settings, data)
-  if (unblockingMoment != undefined) {
+  if (unblockingMoment != null) {
     hash += formatISODateTime(unblockingMoment)
   }
 
-  hash += "#"
-  if (settings.name.trim() !== "") {
+  hash += '#'
+  if (settings.name.trim() !== '') {
     hash += settings.name
   }
 
   browser.tabs.update(tab.id, {url: blockPageUrl + hash})
 }
 
-function main() {
+function main () {
   getState().then(state => {
     syncState(state)
 
@@ -97,10 +76,10 @@ function main() {
           const id = settings.id
           const data = state.blockSetData[id]
           const newStatus = currentStatus(now, settings, data)
-          if (newStatus === "blocking" && lastStatuses[id] !== "blocking") {
+          if (newStatus === 'blocking' && lastStatuses[id] !== 'blocking') {
             getAllTabs().then(tabs => {
               Promise.all(tabs.map(tab => {
-                if (tab.url != undefined && affectsUrl(tab.url, settings, data)) {
+                if (tab.url != null && affectsUrl(tab.url, settings, data)) {
                   blockTab(now, settings, data, tab)
                 }
               }))
@@ -119,27 +98,27 @@ function main() {
 
     // block a tab if its url changed to something blocked
     browser.tabs.onUpdated.addListener((tabId, {url}, tab) => {
-      if (url == undefined) {
+      if (url == null) {
         return
       }
 
-      const now = moment();
+      const now = moment()
       for (const settings of state.blockSetSettings) {
         const data = state.blockSetData[settings.id]
         if (
-          currentStatus(now, settings, data) === "blocking" &&
+          currentStatus(now, settings, data) === 'blocking' &&
           affectsUrl(url, settings, data)
         ) {
           blockTab(now, settings, data, tab)
         }
       }
-    });
+    })
   })
 }
 
 module.exports = {main}
 
-if (typeof browser !== "undefined") {
+if (typeof browser !== 'undefined') {
   // only executed in browser
   main()
 }

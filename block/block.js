@@ -1,21 +1,21 @@
 'use strict'
 
-function decodeBlockInfo(hash) {
-  let [_, blockedUrl, unblockingDate, blockSetName] = hash.split("#");
+function decodeBlockInfo (hash) {
+  let [, blockedUrl, unblockingDate, blockSetName] = hash.split('#')
 
-  if (blockedUrl !== "") {
+  if (blockedUrl !== '') {
     blockedUrl = decodeURIComponent(blockedUrl)
   } else {
     blockedUrl = undefined
   }
 
-  if (unblockingDate !== "") {
+  if (unblockingDate !== '') {
     unblockingDate = new Date(decodeURIComponent(unblockingDate))
   } else {
     unblockingDate = undefined
   }
 
-  if (blockSetName !== "") {
+  if (blockSetName !== '') {
     blockSetName = decodeURIComponent(blockSetName)
   } else {
     blockSetName = undefined
@@ -28,41 +28,39 @@ function decodeBlockInfo(hash) {
   }
 }
 
-
 const {blockedUrl, unblockingDate, blockSetName} =
   decodeBlockInfo(window.location.hash)
 
 const blockedUrlLink = document.getElementById('blocked-url-link')
-if (blockedUrl != undefined) {
+if (blockedUrl != null) {
   blockedUrlLink.appendChild(document.createTextNode(blockedUrl))
-  blockedUrlLink.setAttribute("href", blockedUrl)
+  blockedUrlLink.setAttribute('href', blockedUrl)
 } else {
-  blockedUrlLink.style.display = 'none';
+  blockedUrlLink.style.display = 'none'
 }
 
-if (unblockingDate != undefined) {
+if (unblockingDate != null) {
   const now = new Date()
-  if (unblockingDate < now && blockedUrl != undefined) {
-    window.location.href = blockedUrl;
+  if (unblockingDate < now && blockedUrl != null) {
+    window.location.href = blockedUrl
   }
-  let formatted;
+  let formatted
   if (unblockingDate.toDateString() === now.toDateString()) {
-    formatted = unblockingDate.toLocaleTimeString();
+    formatted = unblockingDate.toLocaleTimeString()
   } else {
-    formatted = unblockingDate.toLocaleString();
+    formatted = unblockingDate.toLocaleString()
   }
 
   document.getElementById('never-unblocked').style.display = 'none'
-  document.getElementById('unblock-time').
-    appendChild(document.createTextNode(formatted))
+  document.getElementById('unblock-time')
+    .appendChild(document.createTextNode(formatted))
 } else {
   document.getElementById('sometime-unblocked').style.display = 'none'
 }
 
-const blockSetInfo = document.getElementById('block-set-info')
-if (blockSetName != undefined) {
-  document.getElementById('block-set-name').
-    appendChild(document.createTextNode(blockSetName))
+if (blockSetName != null) {
+  document.getElementById('block-set-name')
+    .appendChild(document.createTextNode(blockSetName))
 } else {
   document.getElementById('block-set-info').style.display = 'none'
 }

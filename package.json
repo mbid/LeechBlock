@@ -5,7 +5,8 @@
   "devDependencies": [
     "mocha",
     "browserify",
-    "jsdoc"
+    "jsdoc",
+    "standard"
   ],
   "scripts": {
     "test": "mocha"
