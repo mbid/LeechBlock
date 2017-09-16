@@ -1,12 +1,13 @@
 'use strict'
 
-/* globals browser, location */
+/* globals browser, location, Event */
 
 const {
   getState,
   setState,
   formatISOTime,
-  exampleState
+  exampleState,
+  emptyBlockSetSettings
 } = require('../lib/state.js')
 const moment = require('moment')
 const {matchPatternToRegExp} = require('../lib/match-pattern.js')
@@ -42,7 +43,7 @@ function expandTemplateChild (template) {
   console.assert(template.content.children.length === 1)
   const child = template.content.children[0].cloneNode(true)
   if (template.parentNode != null) {
-    template.parentNode.insertBefore(child, template.nextSibling)
+    template.parentNode.insertBefore(child, template)
   }
   return child
 }
@@ -94,7 +95,8 @@ function fillBlockSet (blockSetNode, blockSetSettings) {
 
   const editBlockedPageTemplate =
     node.querySelector('#edit-blocked-page-template')
-  function addBlockedUrlPattern (pattern) {
+
+  function appendBlockedUrlPattern (pattern) {
     const container = expandTemplateChild(editBlockedPageTemplate)
     const input = container.querySelector('input')
     input.value = pattern
@@ -110,6 +112,12 @@ function fillBlockSet (blockSetNode, blockSetSettings) {
         container.parentNode.removeChild(container)
       }
     })
+    return container
+  }
+  function prependBlockedUrlPattern (pattern) {
+    const container = appendBlockedUrlPattern(pattern)
+    container.parentNode.insertBefore(container, container.parentNode.firstChild)
+    return container
   }
 
   const newBlockedPage = node.querySelector('#new-blocked-page')
@@ -120,14 +128,15 @@ function fillBlockSet (blockSetNode, blockSetSettings) {
       newBlockedPage.parse() != null &&
       newBlockedPage.parse() !== ''
     ) {
-      addBlockedUrlPattern(newBlockedPage.parse())
+      const container = prependBlockedUrlPattern(newBlockedPage.parse())
+      container.parentNode.insertBefore(container, newBlockedPage.parentNode.nextSibling)
       settings.blockedUrlPatterns.unshift(newBlockedPage.parse())
       newBlockedPage.value = ''
     }
   })
 
-  for (const pattern of [...blockSetSettings.blockedUrlPatterns].reverse()) {
-    addBlockedUrlPattern(pattern)
+  for (const pattern of blockSetSettings.blockedUrlPatterns) {
+    appendBlockedUrlPattern(pattern)
   }
 
   const startTime = node.querySelector('#start-time')
@@ -215,15 +224,25 @@ function fillBlockSet (blockSetNode, blockSetSettings) {
       }
     })
   }
+
+  setIdPostfix(settings.id, node)
 }
 
 function fillBody (body, state) {
   const blockSetTemplate = body.querySelector('#block-set-template')
-  for (const blockSetSettings of [...state.blockSetSettings].reverse()) {
+  for (const blockSetSettings of state.blockSetSettings) {
     const blockSetNode = expandTemplateChild(blockSetTemplate)
     fillBlockSet(blockSetNode, blockSetSettings)
-    setIdPostfix(blockSetSettings.id, blockSetNode)
   }
+
+  const newBlockSet = body.querySelector('#new-block-set')
+  newBlockSet.addEventListener('click', () => {
+    const blockSetNode = expandTemplateChild(blockSetTemplate)
+    const settings = emptyBlockSetSettings()
+    fillBlockSet(blockSetNode, settings)
+    state.blockSetSettings.push(settings)
+    newBlockSet.dispatchEvent(new Event('change', {bubbles: true}))
+  })
 }
 
 const settingsKeys = ['blockSetSettings']

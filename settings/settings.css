@@ -8,19 +8,21 @@ body {
   list-style-type: none;
   margin-top: 0;
   padding: 0;
-  padding-left: 2em;
-
 }
 
-.block-set {
-  border-bottom-style: solid;
-  border-bottom-width: 1px;
+#block-set-list > li {
+  border-top-style: solid;
+  border-top-width: 1px;
+  padding-top: 1em;
+  padding-bottom: 1em;
 }
 
-.block-set:last-child {
+/*
+#block-set-list > li:last-child {
   border-bottom-style: none;
   border-bottom-width: 0;
 }
+*/
 
 .form-group {
   display: block;
@@ -47,7 +49,7 @@ body {
 }
 
 .form-group li:first-child {
-    margin-top:0;
+  margin-top:0;
 }
 
 .form-group > label:first-child {
@@ -59,6 +61,13 @@ fieldset legend {
   width: 200px;
   margin: 0;
   padding: 0;
+}
+
+#new-block-set {
+  margin: auto;
+  width: 100%;
+  font-weight: bold;
+  font-size: large;
 }
 
 [aria-invalid="true"] {
